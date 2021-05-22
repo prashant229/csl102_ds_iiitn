@@ -7,7 +7,7 @@ int char2int(char c){
 }
 
 
-
+// this function computes the answer to the postfix or prefix operator
 void evaluate(char ch, unsigned short which){
 		short stage = -1;
 
