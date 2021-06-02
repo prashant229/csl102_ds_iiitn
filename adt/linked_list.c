@@ -20,53 +20,64 @@ nodeQ_t *create_node(int val)
 }
 status_t appendNode(nodeQ_t *tail, nodeQ_t *new_Node)
 {
+    if (NULL == tail || NULL == new_Node)
+        return LL_FALSE;
+
     tail->next = new_Node;
-    if (NULL != tail->next)
-        return LL_TRUE;
-    return LL_FALSE;
+    return LL_TRUE;
 }
-status_t prependNode(nodeQ_t *head,nodeQ_t *new_Node)
+status_t prependNode(nodeQ_t *head, nodeQ_t *new_Node)
 {
-    new_Node->next=head;
-    if(NULL!=new_Node)
-      return LL_TRUE;
-    return LL_FALSE;
+    if (NULL == head || NULL == new_Node)
+        return LL_FALSE;
+
+    new_Node->next = head;
+    return LL_TRUE;
 }
 nodeQ_t *retrivenode(nodeQ_t *head, int index)
 {
     nodeQ_t *ptr = head;
     for (int i = 0; i < index; i++)
     {
-        if(NULL!=ptr->next)
-           ptr = ptr->next;
+        if (NULL != ptr->next)
+            ptr = ptr->next;
         else
-         {
-             printf("Error:Node[%d]is null\n",i+1);
-             return NULL;
-         }
+        {
+            printf("Error:Node[%d]is null\n", i + 1);
+            return NULL;
+        }
     }
     return ptr;
 }
-void printh2t(nodeQ_t*head,int sz)
+void printh2t(nodeQ_t *head)
 {
-    printf("head    :\t\t%d\t\t%p\t\t%p\n", head->data, head, head->next);
-    for (int i = 1; i < sz-1; i++)
+    if (NULL == head)
+        return;
+    nodeQ_t *nodeptr = head;
+    while (nodeptr)
     {
-        nodeQ_t *nodeptr = retrivenode(head, i);
-        if(NULL!=nodeptr)
-          printf("Node-%d :\t\t%d\t\t%p\t\t%p\n", i + 1, nodeptr->data, nodeptr, nodeptr->next);
-        else{
-          printf("Pointer to next node is null");
-          return ;
-        }
+        printf("%d-->", nodeptr->data);
+        nodeptr = nodeptr->next;
     }
-    nodeQ_t*tail =retrivenode(head,sz-1);
-    printf("tail    :\t\t%d\t\t%p\t\t%p\n", tail->data, tail, tail->next);
+    printf("EMPTYNODE\n");
 }
-nodeQ_t* makelist(int sz)
-{
 
+void destroylist(nodeQ_t *ptr)
+{
+    if (NULL == ptr)
+        return;
+
+    while (ptr)
+    {
+        nodeQ_t *current = ptr;
+        printh2t(ptr);
+        ptr = ptr->next;
+        free(current);
+    }
+
+    printf("EMPTYNODE\n");
 }
+
 int main()
 {
     nodeQ_t *head = create_node(20);
@@ -74,19 +85,22 @@ int main()
 
     printf("head:\t%d\t\t%p\t\t%p\n", head->data, head, head->next);
     printf("tail:\t%d\t\t%p\t\t%p\n", tail->data, tail, tail->next);
-    // for (int i = 0; i < 10; i++)
-    // {
-    //     nodeQ_t *newNode = create_node(i * 2);
-    //     if (LL_TRUE == appendNode(tail, newNode))
-    //     {
-    //         tail = newNode; //this moves the tail to point to the newly appended node at the end of the linked list
-    //         printf("New Node is appended succesfully\n");
-    //     }
-    //     else
-    //         printf("Not enough memory\n");
-    // }
-    //prints all the nodes from head to tail
-    printh2t(head,11);
+    for (int i = 0; i < 10; i++)
+    {
+        nodeQ_t *newNode = create_node(i * 2);
+        if (LL_TRUE == appendNode(tail, newNode))
+        {
+            tail = newNode; //this moves the tail to point to the newly appended node at the end of the linked list
+            printf("New Node is appended succesfully\n");
+        }
+        else
+            printf("Not enough memory\n");
+    }
+    // prints all the nodes from head to tail
+    printh2t(head);
+
+    destroylist(head);
+    head=NULL;
 
     return 0;
 }
