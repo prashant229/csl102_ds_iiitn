@@ -78,6 +78,23 @@ void destroylist(nodeQ_t *ptr)
     printf("EMPTYNODE\n");
 }
 
+status_t isdataPresent(nodeQ_t *ptr,int  data)
+{
+    if(NULL==ptr)return;
+    
+    while(ptr)
+    {
+        if(ptr->data==data)
+        {
+            printf("number found successfully\n");
+            return;
+        }
+        ptr=ptr->next;
+    }
+    printf("data not present\n");
+}
+
+
 int main()
 {
     nodeQ_t *head = create_node(20);
@@ -89,18 +106,16 @@ int main()
     {
         nodeQ_t *newNode = create_node(i * 2);
         if (LL_TRUE == appendNode(tail, newNode))
-        {
             tail = newNode; //this moves the tail to point to the newly appended node at the end of the linked list
-            printf("New Node is appended succesfully\n");
-        }
         else
             printf("Not enough memory\n");
     }
     // prints all the nodes from head to tail
     printh2t(head);
-
+       isdataPresent(head,23);
+       isdataPresent(head,12);
     destroylist(head);
-    head=NULL;
+    head = NULL;
 
     return 0;
 }
