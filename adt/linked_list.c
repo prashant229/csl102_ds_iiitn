@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-<<<<<<< HEAD
+
 typedef enum
 {
     LL_TRUE = 1,
